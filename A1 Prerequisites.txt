@@ -1,0 +1,12 @@
+Download Git Bash
+Clone this repo locally
+Create AWS account and login with root user
+In AWS, from user menu, select Security Credentials > Access keys > Create new Access Key
+Download AWS CLI
+Open Git Bash
+aws configure
+	Provide access key id using new access key you have created above
+	Provide secret access key
+	Provide region name
+	Set default output format to json
+	It creates config and credentials files in %USERPROFILE%/.aws folder

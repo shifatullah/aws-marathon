@@ -1,0 +1,20 @@
+POLICY_ARN=$(aws iam create-policy --policy-name dev1_policy --policy-document file://security/dev-policy.json --query Policy.Arn --output text)
+aws iam create-group --group-name developers
+aws iam create-user --user-name dev1 --permissions-boundary $POLICY_ARN
+aws iam attach-user-policy --user-name dev1 --policy-arn $POLICY_ARN
+aws iam create-access-key --user-name dev1
+aws configure --profile dev1
+	provide access key id and secret access key of user dev1
+export AWS_PROFILE=dev1
+PRINCIPAL_ARN=$(aws sts get-caller-identity --query Arn --output text)
+sed -e "s|PRINCIPAL_ARN|${PRINCIPAL_ARN}|g" security/templates/assume-role-policy-template.json > assume-role-policy.json
+export AWS_PROFILE=default
+ROLE_ARN=$(aws iam create-role --role-name dev1_role --assume-role-policy-document file://security/assume-role-policy.json --output text --query Role.Arn)
+aws iam attach-role-policy --role-name dev1_role --policy-arn arn:aws:iam::aws:policy/PowerUserAccess
+export AWS_PROFILE=dev1
+ROLE_ARN=$(aws iam get-role --role-name dev1_role --output text --query Role.Arn)
+aws sts assume-role --role-arn $ROLE_ARN --role-session-name aws_marathon
+aws configure --profile dev1_role
+	provide access key id and secret access key of user dev1
+	manually copy session token in credentials file as: aws_session_token = [put session token here]
+aws s3 ls
