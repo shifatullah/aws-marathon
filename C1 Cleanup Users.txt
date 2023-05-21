@@ -2,10 +2,11 @@ aws iam detach-role-policy --role-name dev1_role --policy-arn arn:aws:iam::aws:p
 aws iam delete-role --role-name dev1_role
 DEV1_AKI=$(aws configure get aws_access_key_id --profile dev1)
 aws iam delete-access-key --user-name dev1 --access-key-id $DEV1_AKI
+POLICY_ARN=$(aws iam list-policies --scope Local --query "Policies[?PolicyName=='dev1_policy'] | [:1].Arn" --output text)
+aws iam detach-user-policy --user-name dev1 --policy-arn $POLICY_ARN
+aws iam delete-policy --policy-arn $POLICY_ARN
 aws iam delete-user --user-name dev1
 aws iam delete-group --group-name developers
-POLICY_ARN=$(aws iam list-policies --scope Local --query "Policies[?PolicyName=='dev1_policy'] | [:1].Arn" --output text)
-aws iam delete-policy --policy-arn $POLICY_ARN
 unset POLICY_ARN
 unset DEV1_AKI
 unset ROLE_ARN
