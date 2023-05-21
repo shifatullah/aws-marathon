@@ -15,6 +15,7 @@ export AWS_PROFILE=dev1
 ROLE_ARN=$(aws iam get-role --role-name dev1_role --output text --query Role.Arn)
 aws sts assume-role --role-arn $ROLE_ARN --role-session-name aws_marathon
 aws configure --profile dev1_role
-	provide access key id and secret access key of user dev1
-	manually copy session token in credentials file as: aws_session_token = [put session token here]
+	provide access key id and secret access key returned from above assume-role command
+	manually copy session token in credentials file under dev1_role as: aws_session_token = [put session token here]
+export AWS_PROFILE=dev1_role
 aws s3 ls
