@@ -7,7 +7,7 @@ aws configure --profile dev1
 	provide access key id and secret access key of user dev1
 export AWS_PROFILE=dev1
 PRINCIPAL_ARN=$(aws sts get-caller-identity --query Arn --output text)
-sed -e "s|PRINCIPAL_ARN|${PRINCIPAL_ARN}|g" security/templates/assume-role-policy-template.json > assume-role-policy.json
+sed -e "s|PRINCIPAL_ARN|${PRINCIPAL_ARN}|g" security/templates/assume-role-policy-template.json > security/assume-role-policy.json
 export AWS_PROFILE=default
 ROLE_ARN=$(aws iam create-role --role-name dev1_role --assume-role-policy-document file://security/assume-role-policy.json --output text --query Role.Arn)
 aws iam attach-role-policy --role-name dev1_role --policy-arn arn:aws:iam::aws:policy/PowerUserAccess
