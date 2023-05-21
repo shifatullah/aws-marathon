@@ -11,3 +11,6 @@ unset POLICY_ARN
 unset DEV1_AKI
 unset ROLE_ARN
 unset PRINCIPAL_ARN
+manually deactivate and delete root user access key
+delete local aws-marathon repo from your computer
+delete default, dev1 and dev_role profiles from .aws/config and .aws/credentials 
