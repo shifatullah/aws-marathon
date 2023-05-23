@@ -1,5 +1,5 @@
-POLICY_ARN=$(aws iam create-policy --policy-name dev1_policy --policy-document file://security/dev-policy.json --query Policy.Arn --output text)
 aws iam create-group --group-name developers
+POLICY_ARN=$(aws iam create-policy --policy-name dev_policy --policy-document file://security/dev-policy.json --query Policy.Arn --output text)
 aws iam create-user --user-name dev1 --permissions-boundary $POLICY_ARN
 aws iam attach-user-policy --user-name dev1 --policy-arn $POLICY_ARN
 aws iam create-access-key --user-name dev1
